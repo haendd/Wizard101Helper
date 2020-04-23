@@ -3,23 +3,39 @@
 #NoEnv
 SetWorkingDir %A_ScriptDir%
 
-IniRead, HKey, settings.ini, Application, MyHotkey
-if (HKey <> "ERROR") or (HKey <> "")
-	Hotkey, % HKey, Dance, UseErrorLevel ON
-IniRead, HKey2, settings.ini, Application, MyHotkey2
-if (HKey2 <> "ERROR") or (HKey2 <> "")
-	Hotkey, % HKey2, AFK, UseErrorLevel ON
+IniRead, DanceHkey, settings.ini, Application, DanceHkey
+if (DanceHkey <> "ERROR") or (DanceHkey <> "")
+	Hotkey, % DanceHkey, Dance, UseErrorLevel ON
+IniRead, AFKHkey, settings.ini, Application, AFKHkey
+if (AFKHkey <> "ERROR") or (AFKHkey <> "")
+	Hotkey, % AFKHkey, AFK, UseErrorLevel 
+IniRead, PotionHkey, settings.ini, Application, PotionHkey
+if (PotionHkey <> "ERROR") or (PotionHkey <> "")
+	Hotkey, % PotionHkey, Potion, UseErrorLevel 
+IniRead, BattleOneHkey, settings.ini, Application, BattleOneHkey
+if (BattleOneHkey <> "ERROR") or (BattleOneHkey <> "")
+	Hotkey, % BattleOneHkey, BattleOne, UseErrorLevel ON
 
-HKeyOldest := Hkey
-HKeyOldest2 := Hkey2
+
+DanceHkeyOldest := DanceHkey
+AFKHKeyOldest := AFKHkey
+PotionHKeyOldest := 
+BattleOneHKeyOldest := BattleOneHkey
+
+
+
 AFKState := false
 
 
 Gui, Margin, 8, 8
 Gui, Add,Text,,Dance Game Bot:
-Gui, Add, Hotkey, w100 gOneHotkey VHkey, % HKey
+Gui, Add, Hotkey, w100 gDanceHKey VDanceHkey, % DanceHkey
 Gui, Add,Text,,AFK Mode:
-Gui, Add, Hotkey, w100 gOneHotkey2 VHkey2, % HKey2
+Gui, Add, Hotkey, w100 gAFKHKey VAFKHkey, % AFKHkey
+Gui, Add,Text,,Potion Motion Game Bot:
+Gui, Add, Hotkey, w100 gPotionHKey VPotionHkey, % PotionHkey
+Gui, Add,Text,,Auto-Battle One:
+Gui, Add, Hotkey, w100 gBattleOneHKey VBattleOneHkey, % BattleOneHkey
 Gui, Add, Button, gSave, Save
 return
 
@@ -28,27 +44,30 @@ Gui,Show,Autosize,Options
 return
 
 Save:
-IniWrite, % Hkey, settings.ini, Application, MyHotkey
-IniWrite, % Hkey2, settings.ini, Application, MyHotkey2
+IniWrite, % DanceHkey, settings.ini, Application, DanceHkey
+IniWrite, % AFKHkey, settings.ini, Application, AFKHkey
+IniWrite, % PotionHkey, settings.ini, Application, PotionHkey
+IniWrite, % BattleOneHkey, settings.ini, Application, BattleOneHkey
+
 Gui,Hide
 return
 
-F12::
+F10::
 ExitApp
 return
 
-OneHotkey:
-HClear := Hkey
-If (StateHKey == "On") {
-	HKeyOldest := HClear
-	StateHKey := "Off"
-	Hotkey, %HKeyOldmost%, OFF, UseErrorLevel OFF
+DanceHKey:
+HClear := DanceHkey
+If (StateDanceHkey == "On") {
+	DanceHkeyOldest := HClear
+	StateDanceHkey := "Off"
+	Hotkey, %DanceHkeyOldmost%, OFF, UseErrorLevel OFF
 } Else {
-	HKeyOldmost := HClear
-	StateHKey := "On"
-	Hotkey, %HKeyOldest%, OFF, UseErrorLevel OFF
+	DanceHkeyOldmost := HClear
+	StateDanceHkey := "On"
+	Hotkey, %DanceHkeyOldest%, OFF, UseErrorLevel OFF
 }
-Hotkey, %HKey%, Dance, UseErrorLevel ON
+Hotkey, %DanceHkey%, Dance, UseErrorLevel ON
 return
 
 Dance:
@@ -56,24 +75,24 @@ Msgbox, Please set the game resolution to 800X600 and the UI size to HUGE before
 RunWait, DanceBot.ahk
 return
 
-OneHotkey2:
-HClear2 := Hkey2
-If (StateHKey2 == "On") {
-	HKeyOldest2 := HClear2
-	StateHKey2 := "Off"
-	Hotkey, %HKeyOldmost2%, OFF, UseErrorLevel OFF
+AFKHKey:
+HClear := AFKHkey
+If (StateAFKHkey == "On") {
+	AFKHKeyOldest := HClear
+	StateAFKHkey := "Off"
+	Hotkey, %AFKHKeyOldmost%, OFF, UseErrorLevel OFF
 } Else {
-	HKeyOldmost2 := HClear2
-	StateHKey2 := "On"
-	Hotkey, %HKeyOldest2%, OFF, UseErrorLevel OFF
+	AFKHKeyOldmost := HClear
+	StateAFKHkey := "On"
+	Hotkey, %AFKHKeyOldest%, OFF, UseErrorLevel OFF
 }
-Hotkey, %HKey2%, AFK, UseErrorLevel ON
+Hotkey, %AFKHkey%, AFK, UseErrorLevel ON
 return
 
 AFK:
 AFKState := !AFKState
 if(AFKState){
-	SetTimer, AFKSend, 50
+	SetTimer, AFKSend, 100
 }
 Else {
 	SetTimer, AFKSend, Off
@@ -81,5 +100,44 @@ Else {
 return
 
 AFKSend:
-Send, {d}
+Send, {d down}
+sleep, 10
+Send, {d up}
+return
+
+PotionHKey:
+HClear := PotionHkey
+If (StatePotionHkey == "On") {
+	PotionHKeyOldest := HClear
+	StatePotionHkey := "Off"
+	Hotkey, %PotionHKeyOldmost%, OFF, UseErrorLevel OFF
+} Else {
+	PotionHKeyOldmost := HClear
+	StatePotionHkey := "On"
+	Hotkey, %PotionHKeyOldest%, OFF, UseErrorLevel OFF
+}
+Hotkey, %PotionHkey%, Potion, UseErrorLevel ON
+return
+
+Potion:
+RunWait, PotionMotion.ahk
+return
+
+
+BattleOneHKey:
+HClear := BattleOneHkey
+If (StateBattleOneHkey == "On") {
+	BattleOneHKeyOldest := HClear
+	StateBattleOneHkey := "Off"
+	Hotkey, %BattleOneHKeyOldmost%, OFF, UseErrorLevel OFF
+} Else {
+	BattleOneHKeyOldmost := HClear
+	StateBattleOneHkey := "On"
+	Hotkey, %BattleOneHKeyOldest%, OFF, UseErrorLevel OFF
+}
+Hotkey, %BattleOneHkey%, BattleOne, UseErrorLevel ON
+return
+
+BattleOne:
+AutoBattleOne.ahk
 return

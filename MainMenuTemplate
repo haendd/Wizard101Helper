@@ -1,0 +1,27 @@
+IniRead, BattleOneHkey, settings.ini, Application, BattleOne
+if (BattleOneHkey <> "ERROR") or (BattleOneHkey <> "")
+	Hotkey, % BattleOneHkey, BattleOne, UseErrorLevel ON
+	
+BattleOneHKeyOldest := BattleOneHkey
+
+Gui, Add,Text,,BattleOne Mode:
+Gui, Add, Hotkey, w100 gBattleOneHKey VBattleOneHkey, % BattleOneHkey
+
+IniWrite, % BattleOneHkey, settings.ini, Application, BattleOneHkey
+
+BattleOneHKey:
+HClear := BattleOneHkey
+If (StateBattleOneHkey == "On") {
+	BattleOneHKeyOldest := HClear
+	StateBattleOneHkey := "Off"
+	Hotkey, %BattleOneHKeyOldmost%, OFF, UseErrorLevel OFF
+} Else {
+	BattleOneHKeyOldmost := HClear
+	StateBattleOneHkey := "On"
+	Hotkey, %BattleOneHKeyOldest%, OFF, UseErrorLevel OFF
+}
+Hotkey, %BattleOneHkey%, BattleOne, UseErrorLevel ON
+return
+
+BattleOne:
+return
