@@ -15,7 +15,6 @@ While Games <= Times
 {
    Send {x}
    Sleep, 400
-   CoordMode, Screen
    
    WinGetActiveTitle, WinTitle
    BlockInput, On
@@ -54,7 +53,7 @@ While Games <= Times
 		 if !ErrorLevel
 		{
 			;Up or Down
-			PixelSearch Px, Py, % Xpos + 402, % Ypos + 578, % Xpos + 402 ,% Ypos + 578, 0x085B69, 15, Fast
+			PixelSearch Px, Py, % Xpos + 405, % Ypos + 578, % Xpos + 405 ,% Ypos + 578, 0x085B69, 15, Fast
 			if !ErrorLevel {
 				FileAppend UP`n, *
 				 MoveArray[Moves] := "Up"
