@@ -1,11 +1,11 @@
 #SingleInstance force
-WinActivate, Wizard101
+WinActivate, ahk_exe WizardGraphicalClient.exe
 
 InputBox, Times, Setup, Please enter number of games to play`nPress q to quit
 If(ErrorLevel){
     Exit
 }
-WinActivate, Wizard101
+WinActivate, ahk_exe WizardGraphicalClient.exe
 CoordMode, Mouse, Screen
 CoordMode, Pixel, Screen
 WinGetPos Xpos, Ypos, , , Wizard101
@@ -20,16 +20,17 @@ While Games <= Times
    WinGetActiveTitle, WinTitle
    BlockInput, On
    MouseGetPos, posx, posy
-   WinActivate Wizard101  
+   WinActivate, ahk_exe WizardGraphicalClient.exe 
    
    MouseMove, % Xpos + 632, % Ypos + 491, 0
    Click
-   Sleep, 200
+   Click
+   Sleep, 400
    
    MouseGetPos, posx, posy
    MouseMove, % Xpos + 627 , % Ypos + 588 , 0
    Click
-   
+   Click
    WinActivate, %WinTitle%
    MouseMove, posx, posy, 0
    BlockInput, Off
@@ -86,7 +87,7 @@ While Games <= Times
 	  
 	  WinGetActiveTitle, WinTitle
 	  BlockInput,On
-	  WinActivate, Wizard101
+	  WinActivate, ahk_exe WizardGraphicalClient.exe
 	  i = 0
 	  WinGet, winid
 	  While i <= Moves
@@ -120,18 +121,22 @@ While Games <= Times
 	
 	MouseMove, % Xpos + 620 ,% Ypos + 588, 0
     Click ;Next
-    Sleep, 200
+	Click
+    Sleep, 400
 	
 	MouseMove, % Xpos + 174 ,% Ypos + 487, 0
     Click ;Snack Select
-    Sleep, 200
+	Click
+    Sleep, 400
 	
     MouseMove, % Xpos + 620 ,% Ypos + 588, 0
     Click ;Feed Pet
-    Sleep, 200
+	Click
+    Sleep, 400
 	
     MouseMove, % Xpos + 184 ,% Ypos + 588, 0
     Click ;Exit
+	Click
    
    Loaded := False
    While(!Loaded){
