@@ -1,5 +1,6 @@
 #SingleInstance force
 WinActivate, Wizard101
+
 InputBox, Times, Setup, Please enter number of games to play`nPress q to quit
 If(ErrorLevel){
     Exit
@@ -7,9 +8,8 @@ If(ErrorLevel){
 WinActivate, Wizard101
 CoordMode, Mouse, Screen
 CoordMode, Pixel, Screen
-WinGetPos Xpos, Ypos, , , Wizard101 ; 796, 150
-ClientPos := Array(Xpos, Ypos)
-FileAppend %Ypos%`n, *
+WinGetPos Xpos, Ypos, , , Wizard101
+
 Games = 1
 While Games <= Times
 {
@@ -17,40 +17,28 @@ While Games <= Times
    Sleep, 400
    CoordMode, Screen
    
-   WinGet, winid
-   BlockInput, MouseMove
+   WinGetActiveTitle, WinTitle
+   BlockInput, On
    MouseGetPos, posx, posy
-   WinActivate Wizard101
-   x := Xpos + 632
-   y := Ypos + 491   
-   MouseMove, %x% ,%y%, 0
-   Click
-   Click
-   MouseMove, posx, posy, 0
-   BlockInput, MouseMoveOff
-   WinActivate, winid
-   Sleep, 200
-   WinGet, winid
-   BlockInput, MouseMove
-   MouseGetPos, posx, posy
-   x := Xpos + 627
-   y := Ypos + 588
-   WinActivate Wizard101
-    MouseMove, %x%, %y%, 0
-   Click
-   Click
-   WinActivate, %winid%
-   MouseMove, posx, posy, 0
-   BlockInput, MouseMoveOff
+   WinActivate Wizard101  
    
-
+   MouseMove, % Xpos + 632, % Ypos + 491, 0
+   Click
+   Sleep, 200
+   
+   MouseGetPos, posx, posy
+   MouseMove, % Xpos + 627 , % Ypos + 588 , 0
+   Click
+   
+   WinActivate, %WinTitle%
+   MouseMove, posx, posy, 0
+   BlockInput, Off
+   
    MoveArray := []
-   x := Xpos + 400
-   y := Ypos + 530
-   PixelGetColor, color,  x, y
+   PixelGetColor, color, % Xpos + 400 , % Ypos + 530
    While  color != 0xC2DBEB ;Wait until minigame has loaded
    {
-	  PixelGetColor, color, x, y
+	  PixelGetColor, color,% Xpos + 400,% Ypos + 530
 	  Sleep, 20
    }
    FileAppend "Game Starting... "`n, *
@@ -61,15 +49,11 @@ While Games <= Times
 	  ;Get Moves
 	  while Moves <= rounds
 	{
-		 x := Xpos  + 402
-		 y := Ypos + 545
-		 PixelSearch Px, Py, x , y, x, y, 0x5AE7F3, 15, Fast
+		 PixelSearch Px, Py, % Xpos  + 402 , %  Ypos + 545, % Xpos  + 402, %  Ypos + 545, 0x5AE7F3, 15, Fast
 		 if !ErrorLevel
 		{
 			;Up or Down
-			x := Xpos + 402
-		    y := Ypos + 578
-			PixelSearch Px, Py, x, y, x ,y , 0x085B69, 15, Fast
+			PixelSearch Px, Py, % Xpos + 402, % Ypos + 578, % Xpos + 402 ,% Ypos + 578, 0x085B69, 15, Fast
 			if !ErrorLevel {
 				FileAppend UP`n, *
 				 MoveArray[Moves] := "Up"
@@ -80,15 +64,12 @@ While Games <= Times
 			Moves++
 			Sleep, 200
 		 }
-		 x := Xpos + 389
-		 y := Ypos + 560
-		 PixelSearch Px, Py, x, y, x, y, 0x2Ac8d5, 15, Fast
+		 
+		 PixelSearch Px, Py, % Xpos + 389, % Ypos + 560,  % Xpos + 389, % Ypos + 560, 0x2Ac8d5, 15, Fast
 		 if !ErrorLevel 
 		{
 			;Left or Right
-			 x := Xpos + 423
-		     y := Ypos + 560
-			PixelSearch Px, Py, x, y, x, y, 0x142f34, 15, Fast
+			PixelSearch Px, Py, % Xpos + 423, % Ypos + 560, % Xpos + 423, % Ypos + 560, 0x142f34, 15, Fast
 			if !ErrorLevel {
 			   FileAppend Right`n, *
 			   MoveArray[Moves] := "Right"
@@ -102,8 +83,9 @@ While Games <= Times
 	  }
 	  ;Execute Moves
 	  Sleep, 500
-	  BlockInput,On
+	  
 	  WinGetActiveTitle, WinTitle
+	  BlockInput,On
 	  WinActivate, Wizard101
 	  i = 0
 	  WinGet, winid
@@ -134,37 +116,26 @@ While Games <= Times
    rounds++
 }
 
-   Sleep, 2500 ;Lazy wait for loading
-    x := Xpos + 620
-    y := Ypos + 588
-	MouseMove, %x% ,%y%, 0
-   Click ;Next
-   Click
-   Sleep, 200
-	x := Xpos + 174
-    y := Ypos + 487
-	MouseMove, %x% ,%y%, 0
+    Sleep, 2500 ;Lazy wait for loading
+	
+	MouseMove, % Xpos + 620 ,% Ypos + 588, 0
+    Click ;Next
+    Sleep, 200
+	
+	MouseMove, % Xpos + 174 ,% Ypos + 487, 0
     Click ;Snack Select
-	Click
-   Sleep, 200
-   x := Xpos + 620
-   y := Ypos + 588
-   MouseMove, %x% ,%y%, 0
-   Click ;Feed Pet
-   Click
-   Sleep, 200
-   x := Xpos + 184
-   y := Ypos + 588
-   MouseMove, %x% ,%y%, 0
-   Click ;Exit
-   Click
+    Sleep, 200
+	
+    MouseMove, % Xpos + 620 ,% Ypos + 588, 0
+    Click ;Feed Pet
+    Sleep, 200
+	
+    MouseMove, % Xpos + 184 ,% Ypos + 588, 0
+    Click ;Exit
    
    Loaded := False
    While(!Loaded){
-	     x := Xpos + 720
-		 y := Ypos + 590
-		PixelGetColor, color,  x, y
-		PixelSearch, Px, Py, x, y, x, y, 0x332b64, 3, Fast
+		PixelSearch, Px, Py, % Xpos + 239, % Ypos + 537, % Xpos + 239, % Ypos + 537, 0xB576EF, 5, Fast
 		If !ErrorLevel {
 			Loaded := True
 		}Else{
@@ -173,4 +144,6 @@ While Games <= Times
 	}
    Games++
 }
+ExitApp
+
 q::ExitApp
