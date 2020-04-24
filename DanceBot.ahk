@@ -119,21 +119,24 @@ While Games <= Times
     Sleep, 2500 ;Lazy wait for loading
 	
 	MouseMove, % Xpos + 620 ,% Ypos + 588, 0
+	sleep,200
     Click ;Next
 	Click
-    Sleep, 400
+    Sleep, 100
 	
 	MouseMove, % Xpos + 174 ,% Ypos + 487, 0
+	Sleep 200
     Click ;Snack Select
-	Click
-    Sleep, 400
+    Sleep, 100
 	
     MouseMove, % Xpos + 620 ,% Ypos + 588, 0
+    Sleep,200
     Click ;Feed Pet
 	Click
-    Sleep, 400
+    Sleep, 100
 	
     MouseMove, % Xpos + 184 ,% Ypos + 588, 0
+    Sleep,200
     Click ;Exit
 	Click
    

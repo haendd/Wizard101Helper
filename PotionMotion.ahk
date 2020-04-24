@@ -5,7 +5,8 @@ CoordMode, Pixel, Screen
 
 InputBox, Times, Setup, Please enter number of games to play`nPress q to quit
 If(ErrorLevel){
-    Exit
+    ExitApp
+    Send, {q}
 }
 
 WinGetPos Xpos, Ypos, , , Wizard101
@@ -23,8 +24,8 @@ WinGetPos Xpos, Ypos, , , Wizard101
 Games = 1
 While Games <= Times
 {
-   Loaded := False
-   While(!Loaded){
+	Loaded := False
+	While(!Loaded){
 		PixelSearch, Px, Py, % Xpos + 767 , % Ypos + 299, % Xpos + 767, % Ypos + 299, 0x70b3d4, 5, Fast
 		If !ErrorLevel {
 			Loaded := True
@@ -34,13 +35,13 @@ While Games <= Times
 	}
 	Sleep, 800
 	MouseMove, % Xpos + 415 , % Ypos + 594, 0
-    Click
-    Click
+	Click
+	Click
 	Sleep, 400
 	
-	 
-   Loaded := False
-   While(!Loaded){
+	
+	Loaded := False
+	While(!Loaded){
 		PixelSearch, Px, Py, % Xpos + 677 , % Ypos + 218, % Xpos + 677, % Ypos + 218, 0xE6be76, 5, Fast
 		If !ErrorLevel {
 			Loaded := True
@@ -51,49 +52,59 @@ While Games <= Times
 	
 	MouseMove, % Xpos + 415 , % Ypos + 594, 0
 	Sleep, 10
-    Click
-    Click
+	Click
+	Click
 	Sleep, 400
-   
-    Loaded := False
-    While(!Loaded){
+	
+	SetTimer, GameTimer, 10000
+	
+	Loaded := False
+	While(!Loaded){
 		PixelSearch, Px, Py, % Xpos + 761 , % Ypos + 543, % Xpos + 761, % Ypos + 543, 0x50D7ff, 5, Fast
 		If !ErrorLevel {
 			Loaded := True
 		}Else{
 			i := 0
-		    Xstart := 216
+			Xstart := 216
 			Xchange := 61
 			YChange := 61
 			Ystart  := 176
-		    while i <= 6
+			while i <= 6
 			{
 				j = 1
 				while j <= 5 {
 					MouseClickDrag, Left,  % Xpos + Xstart + (i*Xchange) , % Ypos + Ystart, % Xpos + Xstart + (i*Xchange) , % Ypos + Ystart + (j*Ychange), 0
-				j++
+					j++
 				}
 				if i != 6
 				{
-				j = 1
-				while j <= 6 {
-					MouseClickDrag, Left,  % Xpos + Xstart, % Ypos + Ystart + (i*Ychange), % Xpos + Xstart + (j*Xchange), % Ypos + Ystart  + (i*Ychange)  , 0
-				j++
+					j = 1
+					while j <= 6 {
+						MouseClickDrag, Left,  % Xpos + Xstart, % Ypos + Ystart + (i*Ychange), % Xpos + Xstart + (j*Xchange), % Ypos + Ystart  + (i*Ychange)  , 0
+						j++
+					}
 				}
-			}
-			i++
+				i++
 			}
 		}
 	}
-
-
-Sleep 5000
-MouseMove, % Xpos + 403 , % Ypos + 327, 0
+	
+	SetTimer, GameTimer, Off
+	Sleep 1000
+	MouseMove, % Xpos + 403 , % Ypos + 327, 0
 	Sleep, 10
-    Click
-    Click
-	Sleep, 2000
-Games++
+	Click
+	Click
+	Sleep, 1000
+	Games++
 }
+ExitApp
 
 q::ExitApp
+
+GameTimer:
+Critical, On
+MouseMove, % Xpos+745, % Ypos+508
+sleep, 100
+Click
+return
