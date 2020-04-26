@@ -12,7 +12,7 @@ If(ErrorLevel){
 WinGetPos Xpos, Ypos, , , Wizard101
 
    Send {x}
-   Sleep, 400
+   Sleep, 800
    
  MouseMove, % Xpos + 463 , % Ypos + 359, 0
    Sleep, 10
@@ -104,7 +104,9 @@ q::ExitApp
 
 GameTimer:
 Critical, On
-MouseMove, % Xpos+745, % Ypos+508
-sleep, 100
+Sleep,1000
+WinActivate, ahk_exe WizardGraphicalClient.exe
+MouseMove, % Xpos+688, % Ypos+458
+sleep, 500
 Click
 return

@@ -139,5 +139,5 @@ Hotkey, %BattleOneHkey%, BattleOne, UseErrorLevel ON
 return
 
 BattleOne:
-AutoBattleOne.ahk
+RunWait, AutoBattleOne.ahk
 return
